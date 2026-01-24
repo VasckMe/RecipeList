@@ -29,7 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Preview
 fun App(mainViewModel: MainViewModel = viewModel()) {
     MaterialTheme {
-        val greetings by mainViewModel.greetingList.collectAsStateWithLifecycle()
+        val meals by mainViewModel.mealList.collectAsState()
 
         Column(
             modifier = Modifier
@@ -37,8 +37,10 @@ fun App(mainViewModel: MainViewModel = viewModel()) {
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            greetings.forEach { greeting ->
-                Text(greeting)
+            meals.forEach { meal ->
+                Text(meal.name)
+                Text(meal.idString)
+                Text(meal.thumbnailString)
                 HorizontalDivider()
             }
         }

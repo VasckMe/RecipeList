@@ -8,7 +8,7 @@ struct ContentView: View {
     @ObservedObject private(set) var viewModel: ViewModel
 
     var body: some View {
-        ListView(phrases: viewModel.greetings)
+        ListView(meals: viewModel.meals)
             .task { await self.viewModel.startObserving() }
     }
 }
@@ -16,13 +16,13 @@ struct ContentView: View {
 extension ContentView {
     @MainActor
     class ViewModel: ObservableObject {
-        @Published var greetings: Array<String> = []
+        @Published var meals: Array<DishModel> = []
 
         func startObserving() async {
             do {
-                let sequence = asyncSequence(for: Greeting().greet())
-                for try await phrase in sequence {
-                    self.greetings.append(phrase)
+                let sequence = asyncSequence(for: Greeting().fetchMeals())
+                for try await meal in sequence {
+                    self.meals.append(contentsOf: meal)
                 }
             } catch {
                 print("Failed with error: \(error)")
@@ -32,11 +32,13 @@ extension ContentView {
 }
 
 struct ListView: View {
-    let phrases: Array<String>
+    var meals: Array<DishModel>
 
     var body: some View {
-        List(phrases, id: \.self) {
-            Text($0)
+        List(meals, id: \.self) { meal in
+            Text(meal.name)
+            Text(meal.idString)
+            Text(meal.thumbnailString)
         }
     }
 }
