@@ -23,13 +23,12 @@ kotlin {
     }
     
     jvm()
-    
+
     sourceSets {
+        all { languageSettings.optIn("kotlin.time.ExperimentalTime") }
+
         commonMain.dependencies {
-            // put your Multiplatform dependencies here
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
         }
     }
 }
