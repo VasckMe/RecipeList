@@ -3,6 +3,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    kotlin("plugin.serialization") version "2.3.0"
+    id("com.google.devtools.ksp")
+    id("com.rickclephas.kmp.nativecoroutines")
 }
 
 kotlin {
@@ -24,12 +27,30 @@ kotlin {
     
     jvm()
 
+    val ktorVersion = "3.3.3"
+
     sourceSets {
-        all { languageSettings.optIn("kotlin.time.ExperimentalTime") }
+        all {
+            languageSettings {
+                optIn("kotlin.experimental.ExperimentalObjCName")
+                optIn("kotlin.time.ExperimentalTime")
+            }
+        }
 
         commonMain.dependencies {
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
-        }
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+
+            implementation("io.ktor:ktor-client-core:${ktorVersion}")
+            implementation("io.ktor:ktor-client-content-negotiation:${ktorVersion}")
+            implementation("io.ktor:ktor-serialization-kotlinx-json:${ktorVersion}")}
+
+            androidMain.dependencies {
+                implementation("io.ktor:ktor-client-android:$ktorVersion")
+            }
+            iosMain.dependencies {
+                implementation("io.ktor:ktor-client-darwin:$ktorVersion")
+            }
     }
 }
 

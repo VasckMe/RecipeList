@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -17,26 +16,28 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 
 import recipelist.composeapp.generated.resources.Res
 import recipelist.composeapp.generated.resources.compose_multiplatform
 
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 @Preview
-fun App() {
+fun App(mainViewModel: MainViewModel = viewModel()) {
     MaterialTheme {
-        val greeting = remember { Greeting().greet() }
+        val greetings by mainViewModel.greetingList.collectAsStateWithLifecycle()
 
         Column(
             modifier = Modifier
-                .padding(all = 10.dp)
-                .safeContentPadding()
+                .padding(16.dp)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            greeting.forEach { greeting ->
+            greetings.forEach { greeting ->
                 Text(greeting)
                 HorizontalDivider()
             }
