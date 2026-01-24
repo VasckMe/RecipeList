@@ -21,7 +21,6 @@ extension ContentView {
         func startObserving() async {
             do {
                 meals = try await Greeting().fetchMeals()
-                // meals = try await KMPNativeCoroutinesAsync { Greeting().fetchMeals() }
             } catch {
                 print("Failed with error: \(error)")
             }
