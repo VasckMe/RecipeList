@@ -20,10 +20,8 @@ extension ContentView {
 
         func startObserving() async {
             do {
-                let sequence = asyncSequence(for: Greeting().fetchMeals())
-                for try await meal in sequence {
-                    self.meals.append(contentsOf: meal)
-                }
+                meals = try await Greeting().fetchMeals()
+                // meals = try await KMPNativeCoroutinesAsync { Greeting().fetchMeals() }
             } catch {
                 print("Failed with error: \(error)")
             }

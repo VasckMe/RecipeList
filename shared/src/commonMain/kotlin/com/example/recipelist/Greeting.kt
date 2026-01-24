@@ -24,8 +24,8 @@ class Greeting {
         emit(rocketComponent.launchPhrase())
     }
 
-    @NativeCoroutines
-    fun fetchMeals(): Flow<List<DishModel>> = flow {
-        emit(dishManager.fetchMeals())
+//    @NativeCoroutines
+    suspend fun fetchMeals(): List<DishModel> {
+        return dishManager.fetchMeals()
     }
 }

@@ -14,9 +14,10 @@ open class MainViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            Greeting().fetchMeals().collect { newList ->
-                _mealList.update { newList }
-            }
+            _mealList.update { Greeting().fetchMeals() }
+//            Greeting().fetchMeals().collect { newList ->
+//                _mealList.update { newList }
+//            }
         }
     }
 }
