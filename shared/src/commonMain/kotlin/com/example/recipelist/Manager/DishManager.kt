@@ -1,5 +1,7 @@
 package com.example.recipelist.Manager
 
+import com.example.recipelist.Model.DishDetails
+import com.example.recipelist.Model.DishDetailsResponse
 import com.example.recipelist.Model.DishModel
 import com.example.recipelist.Model.MealsResponse
 import io.ktor.client.HttpClient
@@ -23,5 +25,10 @@ class DishManager {
     suspend fun fetchMeals(): List<DishModel> {
         val response: MealsResponse = httpClient.get("https://www.themealdb.com/api/json/v1/1/filter.php?a=polish").body()
         return response.meals
+    }
+
+    suspend fun fetchDetails(dishID: String): DishDetails {
+        val response: DishDetailsResponse = httpClient.get("https://www.themealdb.com/api/json/v1/1/lookup.php?i=${dishID}").body()
+        return response.dishDetails.first()
     }
 }

@@ -1,6 +1,7 @@
 package com.example.recipelist
 
 import com.example.recipelist.Manager.DishManager
+import com.example.recipelist.Model.DishDetails
 import com.example.recipelist.Model.DishModel
 
 class Greeting {
@@ -9,5 +10,9 @@ class Greeting {
 
     suspend fun fetchMeals(): List<DishModel> {
         return dishManager.fetchMeals()
+    }
+
+    suspend fun fetchDishDetails(dishID: String): DishDetails {
+        return dishManager.fetchDetails(dishID)
     }
 }
