@@ -1,7 +1,8 @@
-package com.example.recipelist
+package viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.recipelist.Greeting
 import com.example.recipelist.Model.DishModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
