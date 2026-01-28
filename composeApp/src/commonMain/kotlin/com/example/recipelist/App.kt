@@ -25,32 +25,52 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import coil3.compose.AsyncImage
 import com.example.recipelist.Model.DishModel
 
 @Composable
 @Preview
-fun App(mainViewModel: MainViewModel = viewModel()) {
+fun App() {
     MaterialTheme {
-        val meals by mainViewModel.mealList.collectAsState()
+        val navController = rememberNavController()
 
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(meals, key = { it.idString }) { meal ->
-                MealCell(
-                    meal = meal,
-                    onClick = {
-                        // TODO: navController.navigate("details/${meal.idString}")
-                        println("Clicked on ${meal.name}")
+        NavHost(navController = navController, startDestination = "list") {
+            composable("list") {
+                val mainViewModel: MainViewModel = viewModel()
+                val meals by mainViewModel.mealList.collectAsState()
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    items(meals, key = { it.idString }) { meal ->
+                        MealCell(
+                            meal = meal,
+                            onClick = {
+                                navController.navigate("details/${meal.idString}")
+                            }
+                        )
                     }
-                )
+                }
+            }
+
+            composable(
+                route = "details/{dishId}",
+                arguments = listOf(navArgument("dishId") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val dishId = backStackEntry.arguments?.getString("dishId") ?: return@composable
+                MealDetailsScreen(dishId = dishId)
             }
         }
     }
 }
+
 @Composable
 fun MealCell(
     meal: DishModel,

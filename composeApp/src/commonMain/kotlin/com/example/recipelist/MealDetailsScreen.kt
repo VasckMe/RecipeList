@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 
-
 @Composable
 fun MealDetailsScreen(
     dishId: String,
@@ -50,7 +49,7 @@ fun MealDetailsScreen(
             CircularProgressIndicator()
         } else {
             AsyncImage(
-                model = currentDetails,
+                model = currentDetails.thumbnailString,
                 contentDescription = null,
                 modifier = Modifier
                     .size(300.dp)
