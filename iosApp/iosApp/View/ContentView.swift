@@ -8,11 +8,15 @@ struct ContentView: View {
     @ObservedObject private(set) var viewModel: ContentViewModel
 
     var body: some View {
-        List(viewModel.meals, id: \.self) { meal in
-            mealCell(meal: meal)
-        }
-        .task {
-            await self.viewModel.startObserving()
+        NavigationStack {
+            List(viewModel.meals, id: \.self) { meal in
+                NavigationLink(destination: MealDetailsView(viewModel: MealDetailsViewModel(id: meal.idString))) {
+                    mealCell(meal: meal)
+                }
+            }
+            .task {
+                await self.viewModel.startObserving()
+            }
         }
     }
 

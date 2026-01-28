@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DishDetailsResponse(val dishDetails: List<DishDetails>)
+data class DishDetailsResponse(@SerialName("meals") val dishDetails: List<DishDetails>)
 
 @Serializable
 data class DishDetails (
